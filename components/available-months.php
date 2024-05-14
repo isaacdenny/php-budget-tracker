@@ -22,7 +22,7 @@ try {
             $month = $row["MONTH"];
             $year = $row["YEAR"];
             echo "<li key='{$month}/{$year}'>
-                        <a href='?route=budget-view&month={$month}&year={$year}'>{$month}/{$year}</a>  
+                        <a href='?month={$month}&year={$year}'>{$month}/{$year}</a>  
                       </li>";
         }
         ?>

@@ -7,6 +7,7 @@ $modules = [
     "login" => "modules/login.php",
     "logout" => "modules/logout.php",
     "budget-view" => "modules/budget-view.php",
+    "404" => "modules/404.php"
 ];
 
 if (!isset($_SESSION["auth-token"])) {
@@ -25,8 +26,8 @@ if (isset($_GET["route"])) {
     if (array_key_exists($route, $modules)) {
         include($modules[$route]);
     } else {
-        include("404.php");
+        include($modules["404"]);
     }
 } else {
-    include("modules/home.php");
+    include($modules["home"]);
 }

@@ -8,9 +8,9 @@ include("database/connection.php");
         <thead>
             <tr>
                 <th>CATEGORY</th>
-                <th>EXPECTED COST</th>
-                <th>TOTAL COST</th>
-                <th>COST DIFFERENCE</th>
+                <th style='text-align:right;'>EXPECTED COST</th>
+                <th style='text-align:right;'>TOTAL COST</th>
+                <th style='text-align:right;'>COST DIFFERENCE</th>
             </tr>
         </thead>
         <tbody>
@@ -39,11 +39,13 @@ include("database/connection.php");
 
                     $categories = mysqli_query($conn, $sql);
                     foreach ($categories as $row) {
+                        $cd = $row['COST_DIFFERENCE'];
+                        $cd_class = $cd < 0 ? "negative" : "positive";
                         echo "<tr name='log' key={$row['CAT_NAME']}>
                         <td>{$row['CAT_NAME']}</td>
-                        <td>{$row['EXPECTED_COST']}</td>
-                        <td>{$row['ACTUAL_COST']}</td>
-                        <td>{$row['COST_DIFFERENCE']}</td>
+                        <td style='text-align:right;'>{$row['EXPECTED_COST']}</td>
+                        <td style='text-align:right;'>{$row['ACTUAL_COST']}</td>
+                        <td style='text-align:right;'><strong class={$cd_class}>{$cd}</strong></td>
                         </tr>";
                     }
                 } catch (mysqli_sql_exception) {

@@ -12,14 +12,13 @@ include("head.php");
     <div class="page">
         <div class="paper">
             <h2>Register</h2>
-            <form action="<?php htmlspecialchars($_SERVER["PHP_SELF"]) ?>" method="POST">
-                <label>Username</label>
-                <input name="username" type="text" />
-                <label>Password</label>
-                <input name="password" type="password" />
+            <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]) . "?route=register" ?>" method="POST">
+                <input name="username" type="text" placeholder="Username" />
+                <input name="password" type="password" placeholder="Password" />
                 <input type="submit" value="Register" name="register" />
             </form>
         </div>
+        <a href="?route=login">Login</a>
     </div>
 </body>
 
@@ -27,30 +26,31 @@ include("head.php");
 
 <?php
 include("database/connection.php");
-$username = "";
-$password = "";
-if (isset($_POST["register"])) {
 
-    if (isset($_POST['username'])) {
-        $username = $_POST['username'];
-    }
-
-    if (isset($_POST['password'])) {
-        $password = $_POST['password'];
-    }
+function register_user($conn)
+{
+    $username = filter_input(INPUT_POST, "username", FILTER_SANITIZE_SPECIAL_CHARS);
+    $password = filter_input(INPUT_POST, "password", FILTER_SANITIZE_SPECIAL_CHARS);
 
     if (empty($username) || empty($password)) {
         echo "Username or password cannot be empty";
         return;
     }
     $hashed_pass = password_hash($password, PASSWORD_DEFAULT);
-    $sql = "INSERT INTO USER (USER_USERNAME, USER_PASSWORD) VALUES ('{$username}','{$hashed_pass}');";
+    $sql = "INSERT INTO USER (USER_USERNAME, USER_PASSWORD) VALUES ('{$username}', '{$hashed_pass}');";
     try {
         $result = mysqli_query($conn, $sql);
-        echo $result;
+        if ($result) {
+            echo "<script type='text/javascript'>alert('Successfully Registered');</script>";
+            echo '<script>window.location.href = window.location.pathname;</script>';
+        } else {
+            echo "<script type='text/javascript'>alert('Failed to register new user');</script>";
+        }
     } catch (mysqli_sql_exception) {
         echo "Error registering user";
     }
 }
-
+if (isset($_POST["register"])) {
+    register_user($conn);
+}
 ?>

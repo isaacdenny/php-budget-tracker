@@ -3,5 +3,5 @@ session_start();
 $_SESSION = [];
 session_destroy();
 
-header("Location: login.php");
+echo '<script>window.location.href = window.location.pathname;</script>';
 exit;

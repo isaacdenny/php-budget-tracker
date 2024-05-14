@@ -1,26 +1,40 @@
 :root {
-    --primary: white;
-    --accent: rgb(0, 104, 232);
-    --text: rgb(158, 158, 158);
+    --primary: rgb(47, 47, 47);
+    --accent: rgb(51, 114, 85);
+    --text: rgb(226, 226, 226);
     --shadow: rgba(0, 0, 0, 0.164);
-    background-color: rgb(255, 255, 255);
+    background: var(--primary);
+    color: var(--text);
 }
 
 * {
-    font-family: "Montserratt", sans-serif;
+    font-family: "Montserrat", sans-serif;
+}
+
+.negative {
+    color: red;
+}
+
+.positive {
+    color: green;
 }
 
 th {
     border-bottom: 2px solid var(--text);
 }
 
-tr:nth-child(even) {
-    background-color: rgb(235, 235, 235);
-    border-radius: 20px;
+/* tr:nth-child(even) {
+} */
+
+.grid {
+    display: grid; 
+    grid-template-columns: auto auto;
+    gap: 1rem;
 }
 
 td, th {
-    padding: 0.5rem
+    padding: 0.5rem;
+    text-align: left;
 }
 
 table {
@@ -37,6 +51,7 @@ h3 {
 h1 {
     margin: 0 0 1rem 0;
     padding: 0;
+    font-weight: 700;
 }
 
 .page {
@@ -46,23 +61,27 @@ h1 {
 
 form {
     display: grid;
+    margin: 1rem 0;
 }
 
 input[type="text"], select, input[type="date"], input[type="number"], input[type="password"] {
-    padding: 0.5rem 0rem;
-    margin-bottom: 1rem;
+    padding: 0.5rem 0.5rem;
+    margin: 0 0 1rem 0;
     border: transparent;
     border-bottom: 2px solid var(--accent);
+    background-color: transparent;
+    color: var(--text);
     outline: none;
 }
 
 button, input[type="submit"] {
     padding: 0.5rem 1rem;
+    margin: 1rem 0;
     outline: none;
     border: none;
     font-weight: 600;
     background-color: var(--accent);
-    color: var(--primary);
+    color: var(--text);
     transition: 0.3s ease-in-out;
     border: 2px solid transparent;
     border-radius: 3px;
@@ -78,8 +97,10 @@ button:hover, input[type="submit"]:hover {
 
 .paper {
     padding: 1rem;
-    border: 2px solid var(--shadow);
-    background-color: var(--primary);
+    border: 0px solid transparent;
+    background: var(--primary);
+    background: linear-gradient(45deg, var(--primary) 0%, rgb(65, 65, 65) 100%);
+    box-shadow: 0px 2px 5px var(--shadow);
     border-radius: 5px;
     margin-bottom: 1rem;
     max-height: 60vh;
@@ -134,13 +155,19 @@ nav ul {
 }
 
 nav h2, nav h3 {
-    color: var(--primary);
+    color: var(--text);
 }
 
-nav a {
+a {
     text-decoration: none;
-    color: var(--primary);
-    padding: 0 1rem;
+    color: var(--text);
+    padding: 0 0.5rem;
+    transition: 0.2s ease-in-out;
+}
+
+a:hover {
+    color: var(--accent);
+    transition: 0.3s ease-in-out;
 }
 
 .months-list {

@@ -9,22 +9,16 @@ include("head.php");
 ?>
 
 <body>
-    <style>
-        .login-page {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-    </style>
     <div class="page login-page">
         <div class="paper">
             <h2>Log In</h2>
-            <form action="<?php htmlspecialchars($_SERVER["PHP_SELF"]) ?>" method="POST">
+            <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]) ?>" method="POST">
                 <input name="username" type="text" placeholder="Username" />
                 <input name="password" type="password" placeholder="Password" />
                 <input type="submit" value="Login" name="login" />
             </form>
         </div>
+        <a href="?route=register">Register</a>
     </div>
 </body>
 
@@ -32,8 +26,8 @@ include("head.php");
 
 <?php
 include("database/connection.php");
-if (isset($_POST["login"])) {
-
+function authenticate($conn)
+{
     $username = filter_input(INPUT_POST, 'username', FILTER_SANITIZE_SPECIAL_CHARS);
     $password = filter_input(INPUT_POST, 'password', FILTER_SANITIZE_SPECIAL_CHARS);
 
@@ -50,15 +44,23 @@ if (isset($_POST["login"])) {
             if (password_verify($password, $row['USER_PASSWORD'])) {
                 $_SESSION['auth-token'] = "SECRET_TOKEN";
                 $_SESSION['username'] = $username;
-                header("Location: home");
+                echo '<script>window.location.href = window.location.pathname;</script>';
+                return;
             } else {
                 echo "<script type='text/javascript'>alert('Invalid username or password');</script>";
+                return;
             }
         } else {
             echo "<script type='text/javascript'>alert('User not found');</script>";
+            return;
         }
     } catch (mysqli_sql_exception $e) {
         echo "Error: " . $e->getMessage();
+        return;
     }
+}
+
+if (isset($_POST["login"])) {
+    authenticate($conn);
 }
 ?>
